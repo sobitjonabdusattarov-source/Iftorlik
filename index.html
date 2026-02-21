@@ -3,81 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iftorlik taklifi</title>
+    <title>Iftorlikka taklif</title>
     <style>
-        body {
-            background-color: #ffb347;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
-            text-align: center;
-            overflow: hidden;
-        }
-        .cat-img { width: 200px; margin-bottom: 20px; }
-        h2 { color: #800000; font-size: 24px; padding: 0 20px; }
-        .buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-        button { padding: 15px 30px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        body { background-color: #ffb347; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Arial', sans-serif; text-align: center; overflow: hidden; }
+        .container { z-index: 10; }
+        .cat-img { width: 220px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        h2 { color: #800000; font-size: 26px; margin-bottom: 30px; text-shadow: 1px 1px 2px white; }
+        .buttons { display: flex; justify-content: center; gap: 20px; position: relative; height: 60px; }
+        button { padding: 15px 30px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; font-weight: bold; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
         #yesBtn { background-color: #4CAF50; color: white; }
-        #noBtn { background-color: #f44336; color: white; position: relative; }
+        #noBtn { background-color: #f44336; color: white; position: absolute; white-space: nowrap; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="game-container">
-        <img src="https://media.tenor.com/264z0T2lXmAAAAAi/cat-muslim.gif" class="cat-img">
-        <h2 id="question">Meni iftorlikka chaqirasanmi, do'stim?</h2>
+    <div id="main-card" class="container">
+        <img src="https://i.postimg.cc/Nf6v7m4v/cat-muslim.gif" class="cat-img" alt="Muslim Cat">
+        <h2>Meni iftorlikka chaqirasanmi, do'stim?</h2>
         <div class="buttons">
             <button id="yesBtn">Albatta</button>
-            <button id="noBtn">Yo'q</button>
+            <button id="noBtn" style="left: 160px;">Yo'q</button>
         </div>
     </div>
 
-    <div id="final-screen" class="hidden">
-        <img src="https://media.tenor.com/7D-G6l6E6mYAAAAi/cat-laugh.gif">
+    <div id="final-screen" class="container hidden">
+        <img src="https://i.postimg.cc/8zX8p5S3/cat-laugh.gif" class="cat-img" alt="Happy Cat">
         <h2>Axaxaxaxa! Bo'ldi, iftorga boraman, kutgin!</h2>
     </div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const question = document.getElementById('question');
-        
-        // Siz xohlagan ketma-ketlikdagi matnlar
-        const messages = [
-            "Yo'q",
-            "Iye do'stim", 
-            "Do'stim xafa qilyapsan", 
-            "Hozir xafa bo'laman", 
-            "Whaaaat?", 
-            "Nooooooo!"
-        ];
-        
-        let messageIndex = 0;
+        const mainCard = document.getElementById('main-card');
+        const finalScreen = document.getElementById('final-screen');
 
-        // Sichqoncha yaqinlashganda tugma qochadi va matn o'zgaradi
-        noBtn.addEventListener('mouseover', () => {
-            // Tugmani tasodifiy joyga ko'chirish
+        const messages = ["Yo'q", "Iye do'stim", "Do'stim xafa qilyapsan", "Hozir xafa bo'laman", "Whaaat", "Nooooooo"];
+        let msgIndex = 0;
+
+        function moveButton() {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'absolute';
+            noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
-
-            // Matnni o'zgartirish
-            if (messageIndex < messages.length - 1) {
-                messageIndex++;
-                noBtn.innerText = messages[messageIndex];
+            if (msgIndex < messages.length - 1) {
+                msgIndex++;
+                noBtn.innerText = messages[msgIndex];
             }
-        });
+        }
 
-        // "Albatta" bosilganda
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+
         yesBtn.addEventListener('click', () => {
-            document.getElementById('game-container').classList.add('hidden');
-            document.getElementById('final-screen').classList.remove('hidden');
+            mainCard.classList.add('hidden');
+            finalScreen.classList.remove('hidden');
         });
     </script>
 </body>
