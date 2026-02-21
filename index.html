@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iftorlik taklifi</title>
+    <style>
+        body {
+            background-color: #ffb347;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .cat-img { width: 200px; margin-bottom: 20px; }
+        h2 { color: #800000; font-size: 24px; padding: 0 20px; }
+        .buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        button { padding: 15px 30px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        #yesBtn { background-color: #4CAF50; color: white; }
+        #noBtn { background-color: #f44336; color: white; position: relative; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <img src="https://media.tenor.com/264z0T2lXmAAAAAi/cat-muslim.gif" class="cat-img">
+        <h2 id="question">Meni iftorlikka chaqirasanmi, do'stim?</h2>
+        <div class="buttons">
+            <button id="yesBtn">Albatta</button>
+            <button id="noBtn">Yo'q</button>
+        </div>
+    </div>
+
+    <div id="final-screen" class="hidden">
+        <img src="https://media.tenor.com/7D-G6l6E6mYAAAAi/cat-laugh.gif">
+        <h2>Axaxaxaxa! Bo'ldi, iftorga boraman, kutgin!</h2>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const question = document.getElementById('question');
+        
+        // Siz xohlagan ketma-ketlikdagi matnlar
+        const messages = [
+            "Yo'q",
+            "Iye do'stim", 
+            "Do'stim xafa qilyapsan", 
+            "Hozir xafa bo'laman", 
+            "Whaaaat?", 
+            "Nooooooo!"
+        ];
+        
+        let messageIndex = 0;
+
+        // Sichqoncha yaqinlashganda tugma qochadi va matn o'zgaradi
+        noBtn.addEventListener('mouseover', () => {
+            // Tugmani tasodifiy joyga ko'chirish
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            // Matnni o'zgartirish
+            if (messageIndex < messages.length - 1) {
+                messageIndex++;
+                noBtn.innerText = messages[messageIndex];
+            }
+        });
+
+        // "Albatta" bosilganda
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('game-container').classList.add('hidden');
+            document.getElementById('final-screen').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
